@@ -60,6 +60,7 @@ int main(int argc, char **argv) {
   send(client_fd, response, strlen(response), 0);
   
   close(server_fd);
+  close(client_fd);
 
   return 0;
 }
