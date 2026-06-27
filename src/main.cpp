@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
   int client_fd = accept(server_fd, (struct sockaddr*)&client_addr, (socklen_t*)&client_addr_len);
   std::cout << "Client connected\n";
 
-  thread t(send_response, client_fd);
+  std::thread t(send_response, client_fd);
   t.join();
   
   // char buffer[1024];
