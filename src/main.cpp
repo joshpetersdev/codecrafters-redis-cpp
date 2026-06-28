@@ -9,21 +9,16 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-void send_response(int server_fd, struct sockaddr *client_addr, socklen_t *client_addr_len) {
-  int client_fd = accept(server_fd, (struct sockaddr*)&client_addr, (socklen_t*)&client_addr_len);
-  std::cout << "Client connected\n";
-
+void send_response(int client_fd) {
   char buffer[1024];
   while (true) {
     int bytes_receveived = recv(client_fd, buffer, sizeof(buffer), 0);
     if (bytes_receveived <= 0) {
       break;
     }
-    const char *response = "+PONG\r\n";
-    send(client_fd, response, strlen(response), 0);
-  } 
-
-  close(client_fd);
+  }
+  const char *response = "+PONG\r\n";
+  send(client_fd, response, strlen(response), 0);
 }
 
 int main(int argc, char **argv) {
@@ -68,18 +63,16 @@ int main(int argc, char **argv) {
   // You can use print statements as follows for debugging, they'll be visible when running tests.
   std::cout << "Logs from your program will appear here!\n";
 
-  // int client_fd = accept(server_fd, (struct sockaddr*)&client_addr, (socklen_t*)&client_addr_len);
-  // std::cout << "Client connected\n";
+  while (true) {
+    int client_fd = accept(server_fd, (struct sockaddr*)&client_addr, (socklen_t*)&client_addr_len);
+    std::cout << "Client connected\n";
+    if (client_fd == -1) {
+      break;
+    }
+    std::thread worker(send_response, client_fd);
+  }
 
-  std::thread t1(send_response, server_fd, (struct sockaddr*)&client_addr, (socklen_t*)&client_addr_len);
-  std::thread t2(send_response, server_fd, (struct sockaddr*)&client_addr, (socklen_t*)&client_addr_len);
-
-  if (t1.joinable())
-    t1.join();
-
-  if (t2.joinable())
-    t2.join();
-  
+  close(client_fd);
   close(server_fd);
 
   return 0;
