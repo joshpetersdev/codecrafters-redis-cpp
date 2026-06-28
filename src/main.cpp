@@ -71,6 +71,9 @@ int main(int argc, char **argv) {
     }
     std::thread worker(send_response, client_fd);
 
+    if (worker.joinable())
+      worker.join();
+
     close(client_fd);
   }
 
