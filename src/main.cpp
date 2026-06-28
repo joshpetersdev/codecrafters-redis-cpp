@@ -13,12 +13,8 @@ void send_response(int client_fd) {
   char buffer[1024];
   while (true) {
     int bytes_receveived = recv(client_fd, buffer, sizeof(buffer), 0);
-    if (bytes_receveived <= 0) {
-      break;
-    } else {
-      const char *response = "+PONG\r\n";
-      send(client_fd, response, strlen(response), 0);
-    }
+    const char *response = "+PONG\r\n";
+    send(client_fd, response, strlen(response), 0);
   }
   // const char *response = "+PONG\r\n";
   // send(client_fd, response, strlen(response), 0);
@@ -75,9 +71,10 @@ int main(int argc, char **argv) {
       break;
     }
     std::thread worker(send_response, client_fd);
+    
+    if (worker.joinable())
+      worker.join();
   }
-
-  worker.join();
 
   close(server_fd);
 
