@@ -75,10 +75,9 @@ int main(int argc, char **argv) {
       break;
     }
     std::thread worker(send_response, client_fd);
-
-    if (worker.joinable())
-      worker.join();
   }
+
+  worker.join();
 
   close(server_fd);
 
