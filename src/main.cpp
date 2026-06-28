@@ -15,10 +15,15 @@ void send_response(int client_fd) {
     int bytes_receveived = recv(client_fd, buffer, sizeof(buffer), 0);
     if (bytes_receveived <= 0) {
       break;
+    } else {
+      const char *response = "+PONG\r\n";
+      send(client_fd, response, strlen(response), 0);
     }
   }
-  const char *response = "+PONG\r\n";
-  send(client_fd, response, strlen(response), 0);
+  // const char *response = "+PONG\r\n";
+  // send(client_fd, response, strlen(response), 0);
+
+  close(client_fd);
 }
 
 int main(int argc, char **argv) {
@@ -73,8 +78,6 @@ int main(int argc, char **argv) {
 
     if (worker.joinable())
       worker.join();
-
-    close(client_fd);
   }
 
   close(server_fd);
