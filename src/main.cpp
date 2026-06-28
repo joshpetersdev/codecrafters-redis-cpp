@@ -73,16 +73,12 @@ int main(int argc, char **argv) {
 
   std::thread t1(send_response, server_fd, (struct sockaddr*)&client_addr, (socklen_t*)&client_addr_len);
   std::thread t2(send_response, server_fd, (struct sockaddr*)&client_addr, (socklen_t*)&client_addr_len);
-  std::thread t3(send_response, server_fd, (struct sockaddr*)&client_addr, (socklen_t*)&client_addr_len);
 
   if (t1.joinable())
     t1.join();
 
   if (t2.joinable())
     t2.join();
-
-  if (t3.joinable())
-    t3.join();
   
   close(server_fd);
 
