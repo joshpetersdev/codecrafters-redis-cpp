@@ -70,9 +70,10 @@ int main(int argc, char **argv) {
       break;
     }
     std::thread worker(send_response, client_fd);
+
+    close(client_fd);
   }
 
-  close(client_fd);
   close(server_fd);
 
   return 0;
