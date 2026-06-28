@@ -11,13 +11,9 @@
 
 void send_response(int client_fd) {
   char buffer[1024];
-  while (true) {
-    int bytes_receveived = recv(client_fd, buffer, sizeof(buffer), 0);
-    const char *response = "+PONG\r\n";
-    send(client_fd, response, strlen(response), 0);
-  }
-  // const char *response = "+PONG\r\n";
-  // send(client_fd, response, strlen(response), 0);
+  int bytes_receveived = recv(client_fd, buffer, sizeof(buffer), 0);
+  const char *response = "+PONG\r\n";
+  send(client_fd, response, strlen(response), 0);
 
   close(client_fd);
 }
