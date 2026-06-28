@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-void send_response(int client_fd) {
+void client_thread(int client_fd) {
   while (true) {
     char buffer[1024];
     int bytes_receveived = recv(client_fd, buffer, sizeof(buffer), 0);
@@ -71,10 +71,10 @@ int main(int argc, char **argv) {
     if (client_fd == -1) {
       break;
     }
-    std::thread worker(send_response, client_fd);
+    std::thread t(client_thread, client_fd);
     
-    if (worker.joinable())
-      worker.detach();
+    if (t.joinable())
+      t.detach();
   }
 
   close(server_fd);
