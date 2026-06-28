@@ -10,12 +10,17 @@
 #include <netdb.h>
 
 void send_response(int client_fd) {
-  char buffer[1024];
-  int bytes_receveived = recv(client_fd, buffer, sizeof(buffer), 0);
-  if (bytes_receveived <= 0)
-    close(client_fd);
-  const char *response = "+PONG\r\n";
-  send(client_fd, response, strlen(response), 0);
+  while (true) {
+    char buffer[1024];
+    int bytes_receveived = recv(client_fd, buffer, sizeof(buffer), 0);
+
+    if (bytes_receveived <= 0)
+      break;
+
+    const char *response = "+PONG\r\n";
+    send(client_fd, response, strlen(response), 0);   
+  }
+  close(client_fd);
 }
 
 int main(int argc, char **argv) {
