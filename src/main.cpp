@@ -22,6 +22,8 @@ void send_response(int server_fd, struct sockaddr *client_addr, socklen_t *clien
     const char *response = "+PONG\r\n";
     send(client_fd, response, strlen(response), 0);
   } 
+
+  close(client_fd);
 }
 
 int main(int argc, char **argv) {
@@ -78,7 +80,6 @@ int main(int argc, char **argv) {
   if (t2.joinable())
     t2.join();
   
-  close(client_fd);
   close(server_fd);
 
   return 0;
