@@ -10,6 +10,7 @@
 #include <netdb.h>
 
 void send_response(int client_fd) {
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   char buffer[1024];
   int bytes_receveived = recv(client_fd, buffer, sizeof(buffer), 0);
   if (bytes_receveived <= 0)
@@ -69,7 +70,9 @@ int main(int argc, char **argv) {
     std::thread worker(send_response, client_fd);
     
     if (worker.joinable())
-      worker.join();
+      worker.detach();
+
+    std::this_thread::sleep_for(std::chrono::seconds(3));
   }
 
   close(server_fd);
