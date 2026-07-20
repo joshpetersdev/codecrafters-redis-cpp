@@ -13,7 +13,7 @@
 struct Command {
   std::string command_name;
   std::vector<std::string> arguments;
-}
+};
 
 Command resp_parser(const char *command_string, int command_length) {
   std::string whole_string (command_string, command_length);
