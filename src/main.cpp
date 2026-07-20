@@ -8,6 +8,22 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <vector>
+
+struct Command {
+  std::string command_name;
+  std::vector<std::string> arguments;
+}
+
+Command resp_parser(const char *command_string, int command_length) {
+  std::string whole_string (command_string, command_length);
+  std::cout << whole_string << std::endl;
+
+  Command c;
+  c.command_name = "";
+
+  return c;
+}
 
 void client_thread(int client_fd) {
   while (true) {
@@ -17,8 +33,9 @@ void client_thread(int client_fd) {
     if (bytes_receveived <= 0)
       break;
 
+    // TODO: create response to send to client 
     // const char *response = "+PONG\r\n";
-    const char *response = buffer;
+    // const char *response = buffer;
     send(client_fd, response, bytes_receveived, 0);   
   }
   close(client_fd);
