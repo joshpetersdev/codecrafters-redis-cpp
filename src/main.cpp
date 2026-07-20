@@ -35,7 +35,7 @@ void client_thread(int client_fd) {
 
     // TODO: create response to send to client 
     // const char *response = "+PONG\r\n";
-    // const char *response = buffer;
+    const char *response = buffer;
     send(client_fd, response, bytes_receveived, 0);   
   }
   close(client_fd);
