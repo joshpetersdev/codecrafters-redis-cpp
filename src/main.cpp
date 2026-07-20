@@ -18,8 +18,8 @@ void client_thread(int client_fd) {
       break;
 
     // const char *response = "+PONG\r\n";
-    const char *response = &buffer;
-    send(client_fd, response, strlen(response), 0);   
+    const char *response = buffer;
+    send(client_fd, response, bytes_receveived, 0);   
   }
   close(client_fd);
 }
