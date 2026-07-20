@@ -33,6 +33,8 @@ void client_thread(int client_fd) {
     if (bytes_receveived <= 0)
       break;
 
+    Command client_command = resp_parser(buffer, bytes_receveived);
+
     // TODO: create response to send to client 
     // const char *response = "+PONG\r\n";
     const char *response = buffer;
