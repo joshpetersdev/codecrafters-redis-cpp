@@ -18,7 +18,7 @@ void client_thread(int client_fd) {
       break;
 
     // const char *response = "+PONG\r\n";
-    const char *response = "$7\r\nbanana\r\n";
+    std::string response (buffer, bytes_receveived);
     send(client_fd, response, strlen(response), 0);   
   }
   close(client_fd);
