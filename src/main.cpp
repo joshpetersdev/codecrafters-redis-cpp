@@ -17,7 +17,8 @@ void client_thread(int client_fd) {
     if (bytes_receveived <= 0)
       break;
 
-    const char *response = "+PONG\r\n";
+    // const char *response = "+PONG\r\n";
+    const char *response = "$7\r\nbanana\r\n";
     send(client_fd, response, strlen(response), 0);   
   }
   close(client_fd);
