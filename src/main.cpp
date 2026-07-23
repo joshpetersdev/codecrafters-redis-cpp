@@ -18,6 +18,7 @@ struct Command {
 Command resp_parser(const char *command_string, int command_length) {
   std::string whole_string (command_string, command_length);
   std::cout << whole_string << std::endl;
+  std::cout << whole_string[1] << std::endl;
 
   Command c;
   c.command_name = "";
